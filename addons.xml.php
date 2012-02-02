@@ -1,25 +1,36 @@
 <?php
 
-$addon_xml_files = list_addon_xml_files();
+define('ADDONS_XML', 'addons.xml');
+define('ADDONS_XML_MD5', 'addons.xml.md5');
 
+$addon_xml_files = list_addon_xml_files();
 if(should_rebuild_addons_xml($addon_xml_files)) {
-	$xml = build_addons_xml($addon_xml_files);
-	file_put_contents('addons.xml', $xml);
-	$xml_md5 = md5($xml);
-	file_put_contents('addons.xml.md5', $xml_md5);
+	build_addons_xml($addon_xml_files);
 }
 
 header('Content-Type: text/xml; charset=UTF-8');
 echo file_get_contents('addons.xml');
-
+exit;
 
 /**
- * @param $addon_xml_files
  */
 function should_rebuild_addons_xml($addon_xml_files) {
-	return true;	
+	$last_modified = -1;
+	if(file_exists(ADDONS_XML)) {
+		$last_modified = filemtime(ADDONS_XML);
+	}
+
+	foreach($addon_xml_files as $file) {
+		if($last_modified < filemtime($file)) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
+/**
+ */
 function list_addon_xml_files() {
 	$addon_xml_files = array();
 
@@ -36,6 +47,8 @@ function list_addon_xml_files() {
 	return $addon_xml_files;
 }
 
+/**
+ */
 function build_addons_xml($addon_xml_files) {
 	$date = date(DATE_RFC822);
 	$addons_xml = <<<XML
@@ -59,5 +72,7 @@ XML;
 </addons>
 XML;
 	
-	return $addons_xml;
+	file_put_contents(ADDONS_XML, $addons_xml);
+	file_put_contents(ADDONS_XML_MD5, md5($addons_xml));
 }
+
