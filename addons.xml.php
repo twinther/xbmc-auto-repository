@@ -2,6 +2,7 @@
 
 define('ADDONS_XML', 'addons.xml');
 define('ADDONS_XML_MD5', 'addons.xml.md5');
+check_preconditions();
 
 $addon_xml_files = list_addon_xml_files();
 if(should_rebuild_addons_xml($addon_xml_files)) {
@@ -11,6 +12,17 @@ if(should_rebuild_addons_xml($addon_xml_files)) {
 header('Content-Type: text/xml; charset=UTF-8');
 echo file_get_contents('addons.xml');
 exit;
+
+
+
+
+/**
+ */
+function check_preconditions() {
+	if(!is_writable(dirname(__FILE__))) {
+		exit('ERROR: Current folder is not writable!');
+	}
+}
 
 /**
  */
@@ -60,7 +72,7 @@ XML;
 
 	foreach($addon_xml_files as $file) {
 		$xml = file_get_contents($file);
-		if(substr($xml, 0, 5) == '<?xml') {
+		if(strpos($xml, '<?xml') !== false) {
 			// strip first line
 			$xml = substr($xml, strpos($xml, "\n") + 1);
 		}
