@@ -44,7 +44,7 @@ div.addon {
 	margin: 10px;
 	padding: 20px;
 	height: 64px;
-	width: 45%;
+	width: 40%;
 	float: left;
 }
 
@@ -80,7 +80,7 @@ div.addon .id {
 
 	<body>
 		<div id="header">
-			<span class="title">XBMC auto-repository</span>
+			<span class="title">xbmc-auto-repository</span>
 			<span class="github"><a href="https://github.com/twinther/xbmc-auto-repository/">github.com/twinther/xbmc-auto-repository/</a></span>
 		</div>
 <?php
@@ -88,10 +88,6 @@ require_once('util.php');
 
 $addons = list_addon_xml_files();
 $dom = new DOMDocument();
-
-
-
-
 foreach($addons as $addon) {
 	$dom->load($addon);
 	$xpath = new DOMXpath($dom);
