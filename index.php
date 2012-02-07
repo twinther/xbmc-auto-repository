@@ -108,7 +108,7 @@ foreach($addons as $addon) {
 			<span class="name">{$name}</span>
 			<span class="version">v. {$version}</span>
 			<span class="last_updated">Updated on {$last_updated}</span>
-			<span class="id"><a href="{$id}">{$id}</a></span>
+			<span class="id"><a href="{$id}">{$id}</a> | <a href="zip.php?addon={$id}">zip</a></span>
 		</div>
 
 HTML;
