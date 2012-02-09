@@ -45,7 +45,6 @@ div.addon {
 	padding: 20px;
 	height: 64px;
 	width: 40%;
-	float: left;
 }
 
 div.addon img {
@@ -69,7 +68,7 @@ div.addon .last_updated {
 	font-size: smaller;
 }
 
-div.addon .id {
+div.addon .links {
 	display: block;
 	text-align: right;
 	font-size: smaller;
@@ -87,6 +86,7 @@ div.addon .id {
 require_once('util.php');
 
 $addons = list_addon_xml_files();
+usort($addons, 'compare_mtime');
 $dom = new DOMDocument();
 foreach($addons as $addon) {
 	$dom->load($addon);
@@ -104,10 +104,14 @@ foreach($addons as $addon) {
 			<span class="name">{$name}</span>
 			<span class="version">v. {$version}</span>
 			<span class="last_updated">Updated on {$last_updated}</span>
-			<span class="id"><a href="{$id}">{$id}</a> | <a href="zip.php?addon={$id}">zip</a></span>
+			<span class="links"><a href="{$id}">{$id}</a> | <a href="zip.php?addon={$id}">zip</a> | <a href="{$id}/changelog.txt">changelog</a></span>
 		</div>
 
 HTML;
+}
+
+function compare_mtime($mine, $yours) {
+	return filemtime($mine) < filemtime($yours);
 }
 
 
