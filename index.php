@@ -38,39 +38,69 @@ a:hover {
 	float: left;
 }
 
-div.addon {
+#stats {
+	background-color: #acd;
+	border-radius: 15px;
+	margin: 20px;
+	padding: 20px;
+	position: absolute;
+	top: 110px;
+	right: 0px;
+}
+
+#addons {
+	padding: 10px;
+	position: absolute;
+	top: 110px;
+	right: 255px;
+	left: 0px;
+}
+
+table.addon {
 	background-color: #eee;
 	border-radius: 15px;
 	margin: 10px;
 	padding: 20px;
 	height: 64px;
-	width: 40%;
 }
 
-div.addon img {
+table.addon img {
 	width: 64px;
-	float: left;
 	padding-right: 10px;
 }
 
-div.addon .name {
+table.addon .info {
+	width: 200px;
+	vertical-align: top;
+}
+
+table.addon .img {
+	width: 84px;
+	vertical-align: top;
+}
+
+table.addon .name {
 	font-weight: bold;
 	display: block;
 	width: 100%;
 }
 
-div.addon .version {
+table.addon .version {
 	font-size: smaller;
 	display: block;
 }
 
-div.addon .last_updated {
+table.addon .last_updated {
 	font-size: smaller;
 }
 
-div.addon .links {
+table.addon .links {
 	display: block;
 	text-align: right;
+	font-size: smaller;
+}
+
+table.addon .description {
 	font-size: smaller;
 }
 
@@ -84,6 +114,14 @@ div.addon .links {
 		</div>
 <?php
 require_once('util.php');
+require_once('stats.php');
+
+echo build_stats_html();
+
+echo <<<HTML
+		<div id="addons">
+
+HTML;
 
 $addons = list_addon_xml_files();
 usort($addons, 'compare_mtime');
@@ -96,16 +134,29 @@ foreach($addons as $addon) {
 	$id = $node->getAttribute('id');
 	$name = $node->getAttribute('name');
 	$version = $node->getAttribute('version');
+
+	$node = $xpath->query('/addon/extension[@point="xbmc.addon.metadata"]/description')->item(0);
+	$description = utf8_decode(str_replace('[CR]', '<br />', $node->textContent));
+
 	$last_updated = date('j. M Y, G:i', filemtime($addon));
 
 	echo <<<HTML
-		<div class="addon">
-			<img src="{$id}/icon.png" />
-			<span class="name">{$name}</span>
-			<span class="version">v. {$version}</span>
-			<span class="last_updated">Updated on {$last_updated}</span>
-			<span class="links"><a href="{$id}">{$id}</a> | <a href="zip.php?addon={$id}">zip</a> | <a href="{$id}/changelog.txt">changelog</a></span>
-		</div>
+		<table class="addon">
+			<tr>
+				<td rowspan="2" class="img">
+					<img src="{$id}/icon.png" />
+				</td>
+				<td rowspan="2" class="info">
+					<span class="name">{$name}</span>
+					<span class="version">v. {$version}</span>
+					<span class="last_updated">Updated on {$last_updated}</span>
+				</td>
+				<td class="description">{$description}</td>
+			</tr>
+			<tr>
+				<td class="links"><a href="{$id}">{$id}</a> | <a href="zip.php?addon={$id}">zip</a> | <a href="{$id}/changelog.txt">changelog</a></td>
+			</tr>
+		</table>
 
 HTML;
 }
@@ -116,6 +167,7 @@ function compare_mtime($mine, $yours) {
 
 
 ?>
+		</div>
 	</body>
 </html>
 

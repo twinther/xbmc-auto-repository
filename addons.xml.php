@@ -8,6 +8,10 @@ if(should_rebuild_addons_xml($addon_xml_files)) {
 	build_addons_xml($addon_xml_files);
 }
 
+$db = new AddonStatsDB();
+$db->register_visit();
+$db->close();
+
 header('Content-Type: text/xml; charset=UTF-8');
 echo file_get_contents(ADDONS_XML);
 exit;
