@@ -1,0 +1,101 @@
+body {
+	font-family: Arial;
+	background-color: #262626;
+}
+
+a:link, a:visited {
+	color: blue;
+}
+
+a:hover {
+	color: red;
+}
+
+#header {
+	background-color: #9FBFBF;
+	border-radius: 15px;
+	margin: 10px;
+	padding-top: 30px;
+	padding-left: 30px;
+	height: 80px;
+}
+
+#header .title {
+	font-size: x-large;
+	font-weight: bold;
+	clear: both;
+	float: left;
+}
+
+#header .github {
+	font-size: smaller;
+	clear: both;
+	float: left;
+}
+
+#stats {
+	background-color: #9FBFBF;
+	border-radius: 15px;
+	margin: 20px;
+	padding: 20px;
+	position: absolute;
+	top: 110px;
+	right: 0px;
+}
+
+#addons {
+	padding: 10px;
+	position: absolute;
+	top: 110px;
+	right: 255px;
+	left: 0px;
+}
+
+table.addon {
+	background-color: #F2EFEB;
+	border-radius: 15px;
+	margin: 10px;
+	padding: 20px;
+	height: 64px;
+}
+
+table.addon img {
+	width: 64px;
+	padding-right: 10px;
+}
+
+table.addon .info {
+	width: 200px;
+	vertical-align: top;
+}
+
+table.addon .img {
+	width: 84px;
+	vertical-align: top;
+}
+
+table.addon .name {
+	font-weight: bold;
+	display: block;
+	width: 100%;
+}
+
+table.addon .version {
+	font-size: smaller;
+	display: block;
+}
+
+table.addon .last_updated {
+	font-size: smaller;
+}
+
+table.addon .links {
+	display: block;
+	text-align: right;
+	font-size: smaller;
+}
+
+table.addon .description {
+	font-size: smaller;
+}
+

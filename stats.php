@@ -39,8 +39,8 @@ HTML;
 	foreach($stats as $user_agent => $count) {
 		$cell_width = (int) ($width * $count / $total_visits);
 		$html .= <<<HTML
-		<div style="background-color: #eee; height: 20px; width: {$width}px; position: relative; margin-bottom: 2px;">
-			<div style="background-color: #aaa; height: 20px; width: {$cell_width}px; position: absolute;">&nbsp;</div>
+		<div style="background-color: #B4D9D9; height: 20px; width: {$width}px; position: relative; margin-bottom: 2px;">
+			<div style="background-color: #708C87; height: 20px; width: {$cell_width}px; position: absolute;">&nbsp;</div>
 			<span style="float: right; padding-right: 2px;">$count</span>
 			<div style="position: absolute; height: 20px; padding-left: 2px;">$user_agent</div>
 		</div>
