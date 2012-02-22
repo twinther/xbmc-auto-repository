@@ -30,13 +30,29 @@ function check_preconditions() {
 /**
  */
 function should_rebuild_addons_xml($addon_xml_files) {
-	$last_modified = -1;
-	if(file_exists(ADDONS_XML)) {
-		$last_modified = filemtime(ADDONS_XML);
+	if(!file_exists(ADDONS_XML)) {
+		return true;
 	}
+	$last_modified = filemtime(ADDONS_XML);
 
+	// Check for any new or updated addons
 	foreach($addon_xml_files as $file) {
 		if($last_modified < filemtime($file)) {
+			return true;
+		}
+	}
+
+	// Check for deleted addons
+	$dom = new DOMDocument();
+	$dom->load(ADDONS_XML);
+	$xpath = new DOMXpath($dom);
+
+	$nodes = $xpath->query('/addons/addon/@id');
+	$len = $nodes->length;
+	for($i=0; $i<$len; $i++) {
+		$node = $nodes->item($i);
+		
+		if(!file_exists($node->nodeValue)) {
 			return true;
 		}
 	}

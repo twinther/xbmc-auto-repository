@@ -65,7 +65,7 @@ class AddonStatsDB extends SQLite3 {
 	}
 
 	function get_visits_per_user_agent() {
-		$stmt = $this->prepare('SELECT user_agent, COUNT(*) AS visits FROM stats GROUP BY user_agent ORDER BY user_agent DESC');
+		$stmt = $this->prepare('SELECT user_agent, SUM(access_count) AS visits FROM stats GROUP BY user_agent ORDER BY user_agent DESC');
 		$result = $stmt->execute();
 
 		$visits = array();
